@@ -16,6 +16,14 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+lspconfig.clojure_lsp.setup {
+  on_attach = function(client, bufnr)
+    -- Set keybindings for LSP features
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- Rename function
+  end,
+}
+
 -- configuring single server, example: typescript
 -- lspconfig.ts_ls.setup {
 --   on_attach = nvlsp.on_attach,

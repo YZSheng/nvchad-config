@@ -11,6 +11,8 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.maplocalleader = ","
+
 local lazy_config = require "configs.lazy"
 
 -- load plugins
@@ -35,3 +37,10 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+require'nvim-tree'.setup {
+  git = {
+    ignore = false,  -- Show files that are ignored by .gitignore
+  }
+}
+

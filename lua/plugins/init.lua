@@ -13,13 +13,47 @@ return {
     end,
   },
 
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+  {
+    "Olical/conjure",
+    ft = { "clojure", "fennel", "lua", "python", "racket", "scheme" }, -- Load Conjure for specific filetypes
+    config = function()
+      -- Optional: Add any additional Conjure configurations here
+    end,
+  },
+
+  {
+    "clojure-vim/vim-jack-in",
+    ft = { "clojure" }, -- Load only for Clojure files
+    config = function()
+      -- Optional: Add any configurations for vim-jack-in here
+    end,
+  },
+  {
+    "Pocco81/auto-save.nvim",
+    lazy = false,
+    config = function()
+      require("auto-save").setup {
+        enabled = true, -- Enable auto-save
+        execution_message = {
+          message = function() return "Auto-saved at " .. vim.fn.strftime("%H:%M:%S") end,
+          dim = 0.18,
+        },
+        debounce_delay = 135, -- Delay (in ms) between changes and save
+        conditions = {
+          exists = true,
+          modifiable = true,
+        },
+        write_all_buffers = false, -- Save only the active buffer
+      }
+    end,
+  },
+  {
+  	"nvim-treesitter/nvim-treesitter",
+  	opts = {
+  		ensure_installed = {
+  			"vim", "lua", "vimdoc",
+       "html", "css", "clojure"
+  		},
+  	},
+  },
 }
