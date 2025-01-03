@@ -35,7 +35,9 @@ return {
       require("auto-save").setup {
         enabled = true, -- Enable auto-save
         execution_message = {
-          message = function() return "Auto-saved at " .. vim.fn.strftime("%H:%M:%S") end,
+          message = function()
+            return "Auto-saved at " .. vim.fn.strftime "%H:%M:%S"
+          end,
           dim = 0.18,
         },
         debounce_delay = 135, -- Delay (in ms) between changes and save
@@ -48,12 +50,20 @@ return {
     end,
   },
   {
-  	"nvim-treesitter/nvim-treesitter",
-  	opts = {
-  		ensure_installed = {
-  			"vim", "lua", "vimdoc",
-       "html", "css", "clojure"
-  		},
-  	},
+    "github/copilot.vim",
+    lazy = false,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "vim",
+        "lua",
+        "vimdoc",
+        "html",
+        "css",
+        "clojure",
+      },
+    },
   },
 }
