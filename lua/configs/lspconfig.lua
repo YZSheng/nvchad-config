@@ -1,32 +1,38 @@
--- load defaults i.e lua_lsp
+-- load defaults i.e lua_lsp (NvChad’s built-in setup)
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require "lspconfig"
-
--- EXAMPLE
-local servers = { "html", "cssls" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
--- lsps with default config
+-- servers that just use NvChad defaults
+local servers = { "html", "cssls" }
+
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+  -- Override/extend the config for each server
+  vim.lsp.config(lsp, {
     on_attach = nvlsp.on_attach,
     on_init = nvlsp.on_init,
     capabilities = nvlsp.capabilities,
-  }
+  })
+
+  -- Enable the server so it actually starts
+  vim.lsp.enable(lsp)
 end
 
-lspconfig.clojure_lsp.setup {
+-- Clojure LSP with your custom on_attach
+vim.lsp.config("clojure_lsp", {
+  -- wrap NvChad's on_attach so you KEEP its mappings + your own
   on_attach = function(client, bufnr)
-    -- Set keybindings for LSP features
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- Rename function
-  end,
-}
+    if nvlsp.on_attach then
+      nvlsp.on_attach(client, bufnr)
+    end
 
--- configuring single server, example: typescript
--- lspconfig.ts_ls.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
+    -- your custom keybinding
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+  end,
+
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+})
+
+vim.lsp.enable("clojure_lsp")

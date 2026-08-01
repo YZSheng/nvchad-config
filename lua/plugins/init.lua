@@ -55,16 +55,9 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "vim",
-        "lua",
-        "vimdoc",
-        "html",
-        "css",
-        "clojure",
-      },
-    },
+    branch = "main",
+    lazy = false,
+    build = ":TSUpdate",
   },
   {
     "hrsh7th/nvim-cmp",
